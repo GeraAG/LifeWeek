@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="container">
+    <div class="info-container">
+        <div>
+            <h1>Life</h1>
+        </div>
+        <div>
+            <span>{{age}}</span>
+        </div>
+    </div>
+    <div class="decades-container">
+
+    </div>
+    <div id="life-container">
+        {% for week in range(1,age) %}
+        <div class="week filled" id="{{ week }}" onclick="getNote(this.id)">
+            <div class="text-container">{{ week }}</div>
+        </div>
+        {% endfor %}
+        <div class="week current" id="{{ age }}" onclick="getNote(this.id)">
+            <div class="text-container current">{{ age }}</div>
+        </div>
+        {% for week in range(age+1,4681) %}
+        <div class="week" id="{{ week }}" onclick="getNote(this.id)">
+            <div class="text-container">{{ week }}</div>
+        </div>
+        {% endfor %}
+    </div>
+    <div id="note-container">
+    </div>
+</div>
+
+{% endblock %}
