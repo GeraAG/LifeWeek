@@ -17,7 +17,7 @@ def home():
     user = ()
     current_age = 1571
     if table_exists_users:
-        user = getUserID(conn, 'users')
+        user = get_user_ID(conn, 'users')
         user_id = str(user[0])
         #current_age = getAgeInWeeks(user[2])
         user_name = user[1]
@@ -27,7 +27,7 @@ def home():
 
     table_is_full = False
     if table_exists_life:
-        table_is_full = check_table_is_full(conn, user_id, table_name)
+        table_is_full = check_table_has_user_data(conn, user_id, table_name)
 
     if table_exists_life and not table_is_full:
         print('does not exist')
@@ -46,7 +46,7 @@ def note():
         user_id = '1'
         week_id = request.args.get('week_id')
 
-        note = getNote(conn, week_id, user_id)
+        note = get_note(conn, week_id, user_id)
         if note == None:
             note = ''
 
@@ -63,7 +63,7 @@ def note():
         week_id = data['week_id']
         print(week_id)
 
-        changeNote(conn, user_id, week_id, newNote)
+        change_note(conn, user_id, week_id, newNote)
 
         if conn:
             conn.close()
@@ -82,7 +82,7 @@ def table_exists(con, database, table):
         print(e)
     return exists
 
-def check_table_is_full(con, user_id, table):
+def check_table_has_user_data(con, user_id, table):
     exists = False
     try:
         cursor = con.cursor()
@@ -94,7 +94,7 @@ def check_table_is_full(con, user_id, table):
         print(e)
     return exists
 
-def getUserID(con, table):
+def get_user_ID(con, table):
     exists = 0
     try:
         cursor = con.cursor()
@@ -106,7 +106,7 @@ def getUserID(con, table):
         print(e)
     return exists
 
-def getNote(con, week_id, user_id):
+def get_note(con, week_id, user_id):
     exists = ''
     try:
         cursor = con.cursor()
@@ -118,10 +118,10 @@ def getNote(con, week_id, user_id):
         print(e)
     return exists
 
-def changeNote(con, user_id, week_id, newNote):
+def change_note(con, user_id, week_id, newNote):
     try:
         cursor = con.cursor()
-        cursor.execute("UPDATE life SET note = '" + newNote + "' WHERE week = " + week_id + " AND user_id = " + user_id)
+        cursor.execute("UPDATE life SET note = (%s) WHERE week = (%s) AND user_id = (%s)", (newNote, week_id, user_id))
         con.commit()
         cursor.close()
     except psycopg2.Error as e:
