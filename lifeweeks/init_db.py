@@ -16,8 +16,10 @@ cursor.execute('CREATE TABLE IF NOT EXISTS life (id SERIAL PRIMARY KEY,'
 
 cursor.execute('DROP TABLE IF EXISTS users;')
 cursor.execute('CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY,'
-                                                'name VARCHAR (50) NOT NULL UNIQUE,'
-                                                'birthday DATE NOT NULL);'
+                                                'email VARCHAR (100) NOT NULL UNIQUE,'
+                                                'name VARCHAR (100) NOT NULL,'
+                                                'password VARCHAR(1000) NOT NULL,'
+                                                'date_of_birth DATE NOT NULL);'
                                                 )
 #cursor.execute('INSERT INTO users (name, birthday) VALUES (%s, %s)', ('andrej', "1993-10-01"))
 

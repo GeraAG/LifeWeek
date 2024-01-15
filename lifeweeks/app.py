@@ -1,10 +1,11 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import psycopg2
 import psycopg2.extras
 
 app = Flask(__name__)
 
 current_age = 1571
+VALID_COLUMN = {'user_id', 'week', 'week_type', 'note', 'last_update', 'email', 'name', 'password', 'date_of_birth'}
 
 
 @app.route("/")
@@ -27,7 +28,7 @@ def home():
 
     table_is_full = False
     if table_exists_life:
-        table_is_full = check_table_has_user_data(conn, user_id, table_name)
+        table_is_full = check_table_has_user_data(conn, 'user_id', user_id, table_name)
 
     if table_exists_life and not table_is_full:
         print('does not exist')
@@ -70,6 +71,47 @@ def note():
 
         return 'Success'
 
+@app.route("/login")
+def login():
+    return 'Login'
+
+@app.route("/signup", methods=['POST'])
+def signup():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        name = request.form.get('name')
+        password = request.form.get('password')
+        date_of_birth = request.form.get('date_of_birth')
+
+        # check if user already exists (YES - redirect to signup)
+        database = 'lifeweeks'
+        conn = psycopg2.connect("dbname='" + database + "' user='postgres' host='localhost' password='dasKuli4'")
+        table_name = 'users'
+        table_exists_users = table_exists(conn, database, table_name)
+
+        email_exists = False
+        if table_exists_users:
+            email_exists = check_table_has_user_data(conn, 'email', email, table_name)
+            if email_exists:
+                return redirect(url_for('app.signup'))
+        else:
+            raise ValueError('Table does not exist')
+
+        if not email_exists:
+            new_user = {}
+            new_user['email'] = email
+            new_user['name'] = name
+            new_user['password'] = password
+            new_user['date_of_birth'] = date_of_birth
+
+            if add_new_user(conn, new_user):
+                return redirect(url_for('app.login'))
+            else:
+                #Change after testing
+                raise ValueError('Error creating new user')
+    else:
+        return render_template('signup.html')
+
 def table_exists(con, database, table):
     exists = False
     try:
@@ -82,11 +124,39 @@ def table_exists(con, database, table):
         print(e)
     return exists
 
-def check_table_has_user_data(con, user_id, table):
+def check_table_has_user_data(con, column, value, table):
     exists = False
+    if column not in VALID_COLUMN:
+        raise ValueError("column: name of column must be one of %r." % VALID_COLUMN)
+
     try:
         cursor = con.cursor()
-        cursor.execute('SELECT EXISTS(SELECT * FROM ' + table + ' WHERE user_id = ' + user_id + ');')
+        cursor.execute('SELECT EXISTS(SELECT * FROM ' + table + ' WHERE ' + column + ' = ' + value + ');')
+
+        # delete if sign up works
+        # --START--
+        i = 0
+        match column:
+            case 'user_id':
+                i = 1
+            case 'week':
+                i = 2
+            case 'week_type':
+                i = 3
+            case 'note':
+                i = 4
+            case 'last_update':
+                i = 5
+            case 'email':
+                i = 1
+            case 'name':
+                i = 2
+            case 'password':
+                i = 3
+            case 'date_of_birth':
+                i = 4
+        #--END--
+
         exists = cursor.fetchone()[0]
         print(exists)
         cursor.close()
@@ -164,6 +234,15 @@ def populate_table_all(con, table_name, user_id, date_of_birth=1571):
     con.commit()
 
     cursor.close()
+
+def add_new_user(con, new_user):
+    try:
+        cursor = con,cursor()
+        cursor.execute("INSERT INTO users (email, name, password, date_of_birth) VALUES ((%s), (%s), (%s), (%s));", (new_user['email'], new_user['name'], new_user['password'], new_user['date_of_birth']))
+        con.commit()
+        cursor.close()
+    except psycopg2.Error as e:
+        print(e)
 
 if __name__ == '__main__':
     app.run(debug=True)
