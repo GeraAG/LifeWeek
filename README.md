@@ -3,7 +3,7 @@ Your life in weeks.
 Website to show and your life in weeks and write notes for each week.
 The idea is from waitbutwhy.com by Tim Urban.
 
-Project is still in development phase. 
+Project is still in development phase.
 
 ![image](https://github.com/GeraAG/LifeWeeks/assets/13507709/74c4143c-b24e-4bb0-bf44-d33646d23cc5)
 
@@ -29,8 +29,12 @@ What has been done:
 5. Write or edit note to save it to the server
 
 TODO:
-1. Automatically change current weeks
-2. Change how to write notes to server. Right now it is possible to do sql injections
-3. Add authentication and user creation
+1. ~~Automatically change current weeks~~
+2. ~~Change how to write notes to server. Right now it is possible to do sql injections~~
+3. ~~Add authentication and user creation~~
 4. Add cookies
 5. Pretty up front-end
+6. Remove edit button, can always change note but save changes when you press button save
+7. After sign up automatically login
+8. Add Home, logout, login, signup
+9. Add logs

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/sign_up.css') }}">
+{% endblock %}
+
+{% block main %}
+
+<form action="/signup" method="post">
+    <h1>Sign Up</h1>
+
+    <fieldset>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name">
+
+        <label for="mail">Email:</label>
+        <input type="email" id="mail" name="email">
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password">
+
+        <label>Date of Birth:</label>
+        <input type="date" id="date_of_birth" value="date_of_birth" name="date_of_birth">
+    </fieldset>
+    <button type="submit">Sign Up</button>
+</form>
+
+{% endblock %}
