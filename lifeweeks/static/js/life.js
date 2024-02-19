@@ -15,12 +15,6 @@ function closeNote() {
     container.css("visibility", "hidden")
 };
 
-function editNote() {
-    var container = $('#note');
-    note = container.text();
-    container.attr('contenteditable','true');
-};
-
 function saveNote() {
     note = $('#note').text();
     console.log(note)

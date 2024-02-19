@@ -21,6 +21,7 @@ def home():
     user_id = session.get('user_id')
 
     if not user_id:
+        print("User ID is not loaded")
         if conn:
             conn.close()
         return redirect(url_for('login'))
@@ -40,11 +41,13 @@ def home():
 
         if table_exists_life and not table_is_full:
             print('Notes for user does not exist')
-            #populate_table_all(conn, table_name, user_id)
+        not_empty_weeks = []
+        if table_is_full:
+            not_empty_weeks = get_not_empty_weeks(conn, user_id)
 
         if conn:
             conn.close()
-        return render_template('index.html', title=user_name, age=current_age)
+        return render_template('index.html', title=user_name, age=current_age, not_empty_weeks=not_empty_weeks)
 
 @app.route("/note", methods=['GET', 'POST'])
 def note():
@@ -138,13 +141,13 @@ def signup():
             print("success checking for new email")
 
             if add_new_user(conn, new_user):
-                #TODO: populate table here
                 user = get_user(new_user['email'])
                 current_age = get_age_in_weeks(user[4])
                 print("Created a user, trying to populate a table")
                 populate_table_all(conn, 'life', user[0], current_age)
                 print("table is populated")
-                return redirect(url_for('login'))
+                session['user_id'] = user[0]
+                return redirect(url_for('home'))
             else:
                 #Change after testing
                 raise ValueError('Error creating new user')
@@ -274,6 +277,19 @@ def get_age_in_weeks(date_of_birth):
     current_age = a*52+b
 
     return current_age
+
+def get_not_empty_weeks(con, user_id):
+    try:
+        cursor = con.cursor()
+        cursor.execute("SELECT week FROM life WHERE user_id = " + str(user_id) + " AND note IS NOT NULL;")
+        weeks = cursor.fetchall()
+        cursor.close()
+        result = []
+        for w in weeks:
+            result.append(w[0])
+        return result
+    except psycopg2.Error as e:
+        print(e)
 
 def populate_table_all(con, table_name, user_id, date_of_birth):
 

@@ -15,17 +15,29 @@
     </div>
     <div id="life-container">
         {% for week in range(1,age) %}
-        <div class="week filled" id="{{ week }}" onclick="getNote(this.id)">
-            <div class="text-container">{{ week }}</div>
-        </div>
+            {% if week in not_empty_weeks %}
+            <div class="week filled has-notes" id="{{ week }}" onclick="getNote(this.id)">
+                <div class="text-container">{{ week }}</div>
+            </div>
+            {% else %}
+            <div class="week filled" id="{{ week }}" onclick="getNote(this.id)">
+                <div class="text-container">{{ week }}</div>
+            </div>
+            {% endif %}
         {% endfor %}
         <div class="week current" id="{{ age }}" onclick="getNote(this.id)">
             <div class="text-container current">{{ age }}</div>
         </div>
         {% for week in range(age+1,4681) %}
-        <div class="week" id="{{ week }}" onclick="getNote(this.id)">
-            <div class="text-container">{{ week }}</div>
-        </div>
+            {% if week in not_empty_weeks %}
+            <div class="week has-notes" id="{{ week }}" onclick="getNote(this.id)">
+                <div class="text-container">{{ week }}</div>
+            </div>
+            {% else %}
+            <div class="week" id="{{ week }}" onclick="getNote(this.id)">
+                <div class="text-container">{{ week }}</div>
+            </div>
+            {% endif %}
         {% endfor %}
     </div>
     <div id="note-container">

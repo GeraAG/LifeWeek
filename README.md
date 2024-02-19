@@ -32,9 +32,9 @@ TODO:
 1. ~~Automatically change current weeks~~
 2. ~~Change how to write notes to server. Right now it is possible to do sql injections~~
 3. ~~Add authentication and user creation~~
-4. Add cookies
+4. ~~Add cookies~~
 5. Pretty up front-end
-6. Remove edit button, can always change note but save changes when you press button save
+6. ~~Remove edit button, can always change note but save changes when you press button save~~
 7. After sign up automatically login
 8. Add Home, logout, login, signup
 9. Add logs
