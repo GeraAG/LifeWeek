@@ -37,3 +37,8 @@ function saveNote() {
       });
 
 }
+
+window.onload = function() {
+    var elem = document.getElementsByClassName("current")[0];
+    elem.scrollIntoView();
+  };

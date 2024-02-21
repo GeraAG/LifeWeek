@@ -69,13 +69,18 @@
     color: #2e2e2e;
     border-style: groove;
     position: fixed;
-    width: 40%;
-    height: 500px;
-    top: 10%;
-    left: 30%;
+    width: 71%;
+    height: 71%;
+    min-width: 800px;
+    min-height: 300px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 30;
     background-color: rgb(241, 241, 241);
     visibility:hidden;
+    display: grid;
+    grid-template-rows: auto 1fr;
 }
 
 html, body {
