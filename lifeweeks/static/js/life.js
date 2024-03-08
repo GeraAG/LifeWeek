@@ -17,14 +17,17 @@ function closeNote() {
 
 function saveNote() {
     note = $('#note').text();
-    console.log(note)
     week_id = $('#note-week-id').text();
 
-    /*$.post("/note", {data: note, dataType: application/json});*/
-    var jsonSTR = JSON.stringify({text: note})
-    console.log(jsonSTR)
+    // Changes appereance of the small box if note has content
+    week_box = document.getElementById(week_id);
+    if(note == "" && week_box.classList.contains('has-notes')) {
+        week_box.classList.remove("has-notes");
+    } else if (note != "" && !week_box.classList.contains('has-notes') && !week_box.classList.contains('current')){
+        week_box.classList.add("has-notes");
+    }
+
     console.log(JSON.stringify({text: note, week_id: week_id}))
-    console.log(typeof jsonSTR === 'object');
 
     $.ajax({
         url: "/note",
@@ -38,7 +41,33 @@ function saveNote() {
 
 }
 
+document.addEventListener("mousedown", function(e) {
+    //var container = $('#note-container');
+    var container = document.getElementById('note-container')
+    if (!container.contains(e.target)) {
+        var container = $('#note-container');
+        container.css("visibility", "hidden")
+    }
+});
+
+function getAge()
+{
+    var container = document.getElementById('birthday');
+    var dateString = container.title;
+    var today = new Date();
+    var birthDate = new Date(dateString);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var weeks = document.getElementsByClassName("current")[0].id % 52;
+    //container.textContent += '${age} Years and ${weeks} weeks';
+    container.textContent += age + ' years and ' + weeks + ' weeks';
+    //return age;
+}
+
+
 window.onload = function() {
     var elem = document.getElementsByClassName("current")[0];
     elem.scrollIntoView();
+    console.log(elem.id % 52)
+    getAge();
+
   };

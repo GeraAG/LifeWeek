@@ -6,8 +6,17 @@
 }
 
 .info-container {
-    margin-top: 10%;
     position: fixed;
+    /*left: 0;*/
+    top: 50%;
+    transform: translateY(-50%); /* Adjusts the div's position to be centered vertically */
+    transform: translateX(-60%); /* Adjusts the div's position to be centered vertically */
+    width: 200px; /* Adjust as needed */
+    overflow: auto; /* Enables scrolling if content overflows */
+    display: flex; /* Enables Flexbox */
+    justify-content: flex-end; /* Aligns children to the right */
+    align-items: flex-end; /* Centers children vertically */
+    flex-direction: column; /* Stacks children vertically */
 }
 
 .decades-container {
@@ -72,7 +81,7 @@
     width: 71%;
     height: 71%;
     min-width: 800px;
-    min-height: 300px;
+    min-height: 200px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -85,4 +94,16 @@
 
 html, body {
     font-size: 16px;
+}
+
+.tx-big {
+    font-size: 2.5em;
+}
+
+.tx-bold {
+    font-weight: bold;
+}
+
+.tx-weight-info {
+    font-weight: 500;
 }

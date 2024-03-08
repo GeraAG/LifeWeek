@@ -31,6 +31,7 @@ def home():
             user = get_user_by_ID(conn, user_id)
             current_age = get_age_in_weeks(user[4])
             user_name = user[2]
+            birth_date = user[4]
 
         table_name = 'life'
         table_exists_life = table_exists(conn, database, table_name)
@@ -44,10 +45,18 @@ def home():
         not_empty_weeks = []
         if table_is_full:
             not_empty_weeks = get_not_empty_weeks(conn, user_id)
+            print()
 
         if conn:
             conn.close()
-        return render_template('index.html', title=user_name, age=current_age, not_empty_weeks=not_empty_weeks)
+
+        print()
+        return render_template('index.html', title=user_name, age=current_age, not_empty_weeks=not_empty_weeks, birthday=birth_date)
+
+@app.after_request
+def after_request(response):
+    response.headers["Cache-Control"] = "no-store, max-age=0"
+    return response
 
 @app.route("/note", methods=['GET', 'POST'])
 def note():
@@ -281,7 +290,7 @@ def get_age_in_weeks(date_of_birth):
 def get_not_empty_weeks(con, user_id):
     try:
         cursor = con.cursor()
-        cursor.execute("SELECT week FROM life WHERE user_id = " + str(user_id) + " AND note IS NOT NULL;")
+        cursor.execute("SELECT week FROM life WHERE user_id = " + str(user_id) + " AND note IS NOT NULL AND note <> '';")
         weeks = cursor.fetchall()
         cursor.close()
         result = []

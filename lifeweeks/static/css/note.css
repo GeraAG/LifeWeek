@@ -1,13 +1,16 @@
 #menu {
     display: flex;
     width: 100%;
-    height: 30px;
+    height: 40px;
+    justify-content: center;
 }
 
 #note_week {
-    justify-content: center;
-    text-align: end;
     flex: 6;
+    display: flex;
+    align-items: center; /* Aligns items vertically in the center */
+    justify-content: flex-end; /* Aligns items horizontally in the center */
+    height: 100%;
 }
 
 #close {
@@ -15,9 +18,40 @@
     text-align: end;
     flex: 5;
     margin-right: 10px;
+    display: flex;
+    align-items: center; /* Aligns items vertically in the center */
+    justify-content: flex-end; /* Aligns items horizontally in the center */
+    height: 100%;
 }
 
 #note {
-    height: 100%;
-    width: 100%;
+    height: 100%-10px;
+    width: 100%-10px;
+    margin: 10px;
+    min-width: 780px;
+    min-height: 180px;
+}
+
+.menu {
+    height: 1.2em;
+    margin-left: 1em;
+}
+
+.close:hover {
+    filter: invert(27%) sepia(86%) saturate(1670%) hue-rotate(347deg) brightness(89%) contrast(82%);
+}
+
+.close:active {
+    filter: invert(17%) sepia(16%) saturate(4754%) hue-rotate(333deg) brightness(92%) contrast(100%);
+}
+
+.save {
+    filter: invert(17%) sepia(20%) saturate(1012%) hue-rotate(170deg) brightness(98%) contrast(88%);
+}
+.save:hover {
+    filter: invert(61%) sepia(13%) saturate(326%) hue-rotate(167deg) brightness(90%) contrast(96%);
+}
+
+.save:active {
+    filter: invert(9%) sepia(45%) saturate(521%) hue-rotate(171deg) brightness(94%) contrast(92%);
 }

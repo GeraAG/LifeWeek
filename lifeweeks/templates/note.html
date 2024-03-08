@@ -1,10 +1,10 @@
 <div id="menu">
     <div id="note_week">
-        <span>Week: </span><span id="note-week-id">{{ week }}</span>
+        <span>Week&nbsp;</span><span id="note-week-id">{{ week }}</span>
     </div>
     <div id="close">
-        <button id="button-save" type="button" onclick="saveNote()">Save</button>
-        <button id="button-close" type="button" onclick="closeNote()">Close</button>
+        <img src="{{ url_for('static', filename='img/save-svgrepo-com.svg') }}" alt="save" class="menu save" onclick="saveNote()"/>
+        <img src="{{ url_for('static', filename='img/close-lg-svgrepo-com.svg') }}" alt="close" class="menu close" onclick="closeNote()"/>
     </div>
 </div>
 <div id="note" contenteditable="true">{{note}}</div>
