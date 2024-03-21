@@ -1,18 +1,36 @@
 function getNote(id) {
-    $.get('/note', { week_id: id })
-        .done(function (response) {
-            var container = $('#note-container');
-            container.html(response);
-            container.css("visibility", "visible")
-        })
-        .fail(function (error) {
-            console.error('Error handling AJAX response:', error);
-        });
+    var container = $('#note-container');
+    var compStyles = window.getComputedStyle(container[0], null);
+    if(compStyles.getPropertyValue("visibility") === "hidden") {
+        console.log("container is hidden")
+        $.get('/note', { week_id: id })
+            .done(function (response) {
+                var container = $('#note-container');
+                container.html(response);
+                container.css("visibility", "visible");
+
+                // Stop clickthrough
+                const life_container = document.getElementById("life-container");
+                life_container.classList.add("avoid-clicks");
+
+                const bd = document.querySelector("body");
+                bd.classList.add("dark-background");
+            })
+            .fail(function (error) {
+                console.error('Error handling AJAX response:', error);
+            });
+    }
+
 };
 
 function closeNote() {
     var container = $('#note-container');
-    container.css("visibility", "hidden")
+    container.css("visibility", "hidden");
+    const life_container = document.getElementById("life-container");
+    life_container.classList.remove("avoid-clicks");
+
+    const bd = document.querySelector("body");
+    bd.classList.remove("dark-background");
 };
 
 function saveNote() {
@@ -27,7 +45,7 @@ function saveNote() {
         week_box.classList.add("has-notes");
     }
 
-    console.log(JSON.stringify({text: note, week_id: week_id}))
+    console.log(JSON.stringify({text: note, week_id: week_id}));
 
     $.ajax({
         url: "/note",
@@ -42,11 +60,9 @@ function saveNote() {
 }
 
 document.addEventListener("mousedown", function(e) {
-    //var container = $('#note-container');
-    var container = document.getElementById('note-container')
+    var container = document.getElementById('note-container');
     if (!container.contains(e.target)) {
-        var container = $('#note-container');
-        container.css("visibility", "hidden")
+        closeNote();
     }
 });
 
