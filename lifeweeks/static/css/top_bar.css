@@ -1,0 +1,38 @@
+#top-bar {
+    overflow: hidden;
+    background-color: #9b9b9b;
+    min-height: 30px;
+    width: 70%;
+    padding: 0 15%;
+    display: flex;
+    justify-content: end;
+    position: fixed;
+    top: 0;
+    z-index: 10;
+}
+
+#top-bar div {
+    display: block;
+    color: #f2f2f2;
+    padding: 8px 16px;
+    text-decoration: none;
+    font-size: large;
+    font-weight: 400;
+}
+
+#top-bar div:hover {
+    background: #ddd;
+    color: black;
+    cursor: pointer;
+}
+
+#top-bar div:active {
+    background: #c2c2c2;
+    color: white;
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
+    text-decoration: inherit;
+  }

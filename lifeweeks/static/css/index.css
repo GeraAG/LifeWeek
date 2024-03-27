@@ -116,3 +116,7 @@ html, body {
 .tx-weight-info {
     font-weight: 500;
 }
+
+* {
+    font-family: 'Nunito', sans-serif;
+}

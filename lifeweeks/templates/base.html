@@ -6,15 +6,15 @@
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/top_bar.css') }}">
 
     {% block head %}
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/base.css') }}">
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/index.css') }}">
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/note.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/top_bar.css') }}">
     <script src="{{ url_for('static', filename='js/life.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     {% endblock %}
 </head>
 <body>
-{% block top_bar %}
-{% endblock %}
 {% block main %}
 {% endblock %}
 </body>

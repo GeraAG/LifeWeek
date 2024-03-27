@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, Blueprint, session
+from flask import Flask, render_template, make_response, request, redirect, url_for, flash, Blueprint, session
 from user_models import User
 import os
 import psycopg2
@@ -116,6 +116,13 @@ def login():
         return redirect(url_for('home'))
     elif request.method == 'GET':
         return render_template('login.html')
+
+# route for logout
+@app.route("/logout")
+def logout():
+    session['user_id'] = None
+    #response = make_response('', 204)
+    return redirect(url_for('home'))
 
 @app.route("/signup", methods=['GET', 'POST'])
 def signup():

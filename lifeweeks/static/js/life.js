@@ -11,7 +11,9 @@ function getNote(id) {
 
                 // Stop clickthrough
                 const life_container = document.getElementById("life-container");
+                const top_bar = document.getElementById("top-bar");
                 life_container.classList.add("avoid-clicks");
+                top_bar.classList.add("avoid-clicks");
 
                 const bd = document.querySelector("body");
                 bd.classList.add("dark-background");
@@ -27,7 +29,9 @@ function closeNote() {
     var container = $('#note-container');
     container.css("visibility", "hidden");
     const life_container = document.getElementById("life-container");
+    const top_bar = document.getElementById("top-bar");
     life_container.classList.remove("avoid-clicks");
+    top_bar.classList.remove("avoid-clicks");
 
     const bd = document.querySelector("body");
     bd.classList.remove("dark-background");
@@ -79,11 +83,20 @@ function getAge()
     //return age;
 }
 
+const scrollIntoViewWithOffset = (selector, offset) => {
+    window.scrollTo({
+      behavior: 'smooth',
+      top:
+        document.querySelector(selector).getBoundingClientRect().top -
+        document.body.getBoundingClientRect().top -
+        offset,
+    })
+};
 
 window.onload = function() {
-    var elem = document.getElementsByClassName("current")[0];
-    elem.scrollIntoView();
-    console.log(elem.id % 52)
+    //var elem = document.getElementsByClassName("current")[0];
+    //console.log(elem.id % 52)
+    scrollIntoViewWithOffset(".current",200)
     getAge();
 
   };
